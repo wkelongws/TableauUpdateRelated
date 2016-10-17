@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/commons-configuration-1.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/commons-io-2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/commons-logging-1.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/hadoop-annotations-2.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/hadoop-auth-2.7.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/hadoop-client-2.7.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/hadoop-common-2.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/hadoop-core-1.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/hadoop-hdfs-2.7.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/hadoop-mapreduce-client-core-2.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/hadoop-mapreduce-client-jobclient-2.7.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/jsch-0.1.53.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/jsonsimple1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/pig-0.8.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/pig-0.14.0-SNAPSHOT-core-h2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/weka.jar"/>
+	<classpathentry kind="lib" path="C:/Users/shuowang/Desktop/eclipse/commons-math3-3.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
