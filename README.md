@@ -10,5 +10,5 @@ This code is created to calculate desired performance measures of the on-going w
 2. daily event log
 3. daily speed heatmaps and sensor condition heatmaps
 
-All codes are converted to excutable jar and scheduled on local machine to daily auto-update the visualization panel on REACTOR website: [I'm an inline-style link](http://reactor.ctre.iastate.edu/TCP/overview.html)
+All codes are converted to excutable jar and scheduled on local machine to daily auto-update the visualization panel on REACTOR website: [REACTOR-IWZ](http://reactor.ctre.iastate.edu/TCP/overview.html)
 
