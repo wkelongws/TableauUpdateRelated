@@ -225,6 +225,10 @@ public static void main(String[] args) throws Exception
         			}
         		}   
                 
+                DescriptiveStatistics Delay_dir1 = new DescriptiveStatistics();
+        		DescriptiveStatistics Delay_dir2 = new DescriptiveStatistics();
+        		
+        		
                 for (int timeKey:IWZData.keySet())
                 {
                 	double totalLength_Dir1 = 0.0;
@@ -305,6 +309,9 @@ public static void main(String[] args) throws Exception
                 		}                		
                 	}
                 	
+                	Delay_dir1.addValue(Math.max(0.0,(travelTime_Dir1-totalLength_Dir1/referenceSpeed)));
+                	Delay_dir2.addValue(Math.max(0.0,(travelTime_Dir2-totalLength_Dir2/referenceSpeed)));
+            		
                 	double excessiveTraveltime_Dir1 = Math.max(0.0,(travelTime_Dir1-totalLength_Dir1/referenceSpeed)/(totalLength_Dir1/referenceSpeed));
                 	double excessiveTraveltime_Dir2 = Math.max(0.0,(travelTime_Dir2-totalLength_Dir2/referenceSpeed)/(totalLength_Dir2/referenceSpeed));
                 	if (excessiveTraveltime_Dir1>delayThreshold1){flag_LargeDelay1_Dir1 = 1;}
@@ -1085,7 +1092,7 @@ public static void main(String[] args) throws Exception
     			+ "," + event_duration_dir1.getMean() + "," + event_duration_dir1.getMax() 
     			+ "," + event_length_dir1.getMean() + "," + event_length_dir1.getMax() 
     			+ "," + event_vehicle_dir1.getMean() + "," + event_vehicle_dir1.getMax() 
-    			+ "," + event_delay_dir1.getMean() + "," + event_delay_dir1.getMax();
+    			+ "," + event_delay_dir1.getMean() + "," + event_delay_dir1.getMax() + "," + Delay_dir1.getPercentile(95);
     			
     			pw.append(row_dir1);
                 pw.append("\n");
@@ -1096,7 +1103,7 @@ public static void main(String[] args) throws Exception
     			+ "," + event_duration_dir2.getMean() + "," + event_duration_dir2.getMax() 
     			+ "," + event_length_dir2.getMean() + "," + event_length_dir2.getMax() 
     			+ "," + event_vehicle_dir2.getMean() + "," + event_vehicle_dir2.getMax() 
-    			+ "," + event_delay_dir2.getMean() + "," + event_delay_dir2.getMax();
+    			+ "," + event_delay_dir2.getMean() + "," + event_delay_dir2.getMax() + "," + Delay_dir2.getPercentile(95);
     			
     			pw.append(row_dir2);
                 pw.append("\n");
