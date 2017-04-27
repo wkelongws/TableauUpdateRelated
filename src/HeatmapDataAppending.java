@@ -147,7 +147,7 @@ public static void main(String[] args) throws Exception
                 //String localFile = "IWZSensorIssue.csv";
                 //String localDir = "S:/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2016/IWZ Data for Tableau/CSV Tableau All in One/";
                 String localFile1 = "IWZSensorIssue-2017.csv";
-                String localDir1 = "S:/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2017/Tableau/";
+                String localDir1 = "//intrans-luigi.intrans.iastate.edu/SHARE/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2017/Tableau/";
             
                 
                 
