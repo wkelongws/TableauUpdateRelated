@@ -1092,7 +1092,7 @@ public static void main(String[] args) throws Exception
     			+ "," + event_duration_dir1.getMean() + "," + event_duration_dir1.getMax() 
     			+ "," + event_length_dir1.getMean() + "," + event_length_dir1.getMax() 
     			+ "," + event_vehicle_dir1.getMean() + "," + event_vehicle_dir1.getMax() 
-    			+ "," + event_delay_dir1.getMean() + "," + event_delay_dir1.getMax() + "," + Delay_dir1.getPercentile(95);
+    			+ "," + event_delay_dir1.getMean() + "," + event_delay_dir1.getMax() + "," + 60*Delay_dir1.getPercentile(95);
     			
     			pw.append(row_dir1);
                 pw.append("\n");
@@ -1103,7 +1103,7 @@ public static void main(String[] args) throws Exception
     			+ "," + event_duration_dir2.getMean() + "," + event_duration_dir2.getMax() 
     			+ "," + event_length_dir2.getMean() + "," + event_length_dir2.getMax() 
     			+ "," + event_vehicle_dir2.getMean() + "," + event_vehicle_dir2.getMax() 
-    			+ "," + event_delay_dir2.getMean() + "," + event_delay_dir2.getMax() + "," + Delay_dir2.getPercentile(95);
+    			+ "," + event_delay_dir2.getMean() + "," + event_delay_dir2.getMax() + "," + 60*Delay_dir2.getPercentile(95);
     			
     			pw.append(row_dir2);
                 pw.append("\n");
