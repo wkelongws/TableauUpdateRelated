@@ -9,7 +9,7 @@ import java.util.Vector;
 
 import javax.print.attribute.standard.PrinterLocation;
 
-public class HeatmapDataAppending 
+public class HeatmapDataAppending_MultipleDays 
 {
 public static void main(String[] args) throws Exception 
 {
@@ -54,20 +54,20 @@ public static void main(String[] args) throws Exception
                 BufferedReader br = new BufferedReader(new InputStreamReader(out));
                 String line;
                 //String localFile = remoteFile.split(".txt")[0] + ".csv";
-                //String localFile = "Historical Raw.csv";
-                //String localDir = "S:/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2016/IWZ Data for Tableau/CSV Tableau All in One/";
+                String localFile = "Historical Raw.csv";
+                String localDir = "S:/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2016/IWZ Data for Tableau/CSV Tableau All in One/";
                 String localFile1 = "Historical Raw-2017.csv";
-                String localDir1 = "//intrans-luigi.intrans.iastate.edu/SHARE/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2017/Tableau/";
+                String localDir1 = "S:/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2017/Tableau/";
             
                 
                 
                 //String localDir = "S:/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2016/IWZ Data for Tableau/test_Shuo/";
-                System.out.println("append to: " + localFile1);
+                System.out.println("append to: " + localFile);
                 
-                //FileWriter pw = new FileWriter(localDir + localFile,true);
+                FileWriter pw = new FileWriter(localDir + localFile,true);
                 FileWriter pw1 = new FileWriter(localDir1 + localFile1,true);
                 
-                File src=new File(localDir1 + localFile1);
+                File src=new File(localDir + localFile);
                 System.out.println(src.exists());
                 
                 while ((line = br.readLine()) != null) 
@@ -106,15 +106,15 @@ public static void main(String[] args) throws Exception
             				group + "," + direction + "," + coded_direction + "," + order;      		
                     //System.out.println(line_new);
                     
-                    //pw.append(line_new);
-                    //pw.append("\n"); 
+                    pw.append(line_new);
+                    pw.append("\n"); 
                     pw1.append(line_new);
                     pw1.append("\n"); 
                      
                 }
                 
-                //pw.flush();
-                //pw.close();
+                pw.flush();
+                pw.close();
                 pw1.flush();
                 pw1.close();
                 br.close();
@@ -144,20 +144,20 @@ public static void main(String[] args) throws Exception
                 BufferedReader br = new BufferedReader(new InputStreamReader(out));
                 String line;
                 //String localFile = remoteFile.split(".txt")[0] + ".csv";
-                //String localFile = "IWZSensorIssue.csv";
-                //String localDir = "S:/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2016/IWZ Data for Tableau/CSV Tableau All in One/";
+                String localFile = "IWZSensorIssue.csv";
+                String localDir = "S:/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2016/IWZ Data for Tableau/CSV Tableau All in One/";
                 String localFile1 = "IWZSensorIssue-2017.csv";
                 String localDir1 = "S:/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2017/Tableau/";
             
                 
                 
                 //String localDir = "S:/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2016/IWZ Data for Tableau/test_Shuo/";
-                System.out.println("append to: " + localFile1);
+                System.out.println("append to: " + localFile);
                 
-                //FileWriter pw = new FileWriter(localDir + localFile,true);
+                FileWriter pw = new FileWriter(localDir + localFile,true);
                 FileWriter pw1 = new FileWriter(localDir1 + localFile1,true);
                 
-                File src=new File(localDir1 + localFile1);
+                File src=new File(localDir + localFile);
                 System.out.println(src.exists());
                 
                 while ((line = br.readLine()) != null) 
@@ -196,15 +196,15 @@ public static void main(String[] args) throws Exception
             				zerospeedissue + "," + classissue;      		
                     //System.out.println(line_new);
                     
-                    //pw.append(line_new);
-                    //pw.append("\n"); 
+                    pw.append(line_new);
+                    pw.append("\n"); 
                     pw1.append(line_new);
                     pw1.append("\n"); 
                      
                 }
                 
-                //pw.flush();
-                //pw.close();
+                pw.flush();
+                pw.close();
                 pw1.flush();
                 pw1.close();
                 br.close();

@@ -17,6 +17,8 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
+import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math3.ml.clustering.Cluster;
 import org.apache.commons.math3.ml.clustering.DBSCANClusterer;
 import org.apache.commons.math3.ml.clustering.DoublePoint;
@@ -219,11 +221,14 @@ public class EventCalculation {
 	                String line;
 	                //String localFile = remoteFile.split(".txt")[0] + ".csv";
 	                String localFile = "event_daily.csv";
-	                String localDir = "S:/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2016/IWZ Data for Tableau/CSV Tableau All in One/";
+	                String localDir = "//intrans-luigi.intrans.iastate.edu/SHARE/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2016/IWZ Data for Tableau/CSV Tableau All in One/";
+	                String localFile1 = "event_daily-2017.csv";
+	                String localDir1 = "//intrans-luigi.intrans.iastate.edu/SHARE/(S) SHARE/_project CTRE/1_Active Research Projects/Iowa DOT OTO Support/14_Traffic Critical Projects 2/2017/Tableau/";
 	            
 	                System.out.println("append to: " + localDir + localFile);
 	                
 	                FileWriter pw = new FileWriter(localDir + localFile,true);
+	                FileWriter pw1 = new FileWriter(localDir1 + localFile1,true);
 	                
 	                File src=new File(localDir + localFile);
 	                System.out.println(src.exists());
@@ -325,23 +330,55 @@ public class EventCalculation {
 	        				        		}
 	        				        		double speed_avg = 0.0;
 	        				        		if (counter_nonspeed>0){speed_avg=speed_sum/counter_nonspeed;}
-	        				        		for (int i=0;i<speed_ini_Dir1.length;i++)
-	        				        		{
-	        				        			if(speed_ini_Dir1[i]==0){speed_ini_Dir1[i]=speed_avg;}
-	        				        		}
 	        				        		
-	        				        		// 2.3 apply projection 
 	        				        		double[] speed_proj_Dir1 = speed_ini_Dir1;
-	        				        		if(mm_ini_Dir1.length>1)
-	        				        		{
-	        				        			speed_proj_Dir1 = interpLinear(mm_ini_Dir1, speed_ini_Dir1, MM_PROJ_Dir1);
-	        				        		}
 	        				        		
+	        				        		if (speed_avg>0){
+		        				        		// replace 0 speed on both ends with avg speed
+		        				        		if(speed_ini_Dir1[0]==0){speed_ini_Dir1[0]=speed_avg;}
+		        				        		if(speed_ini_Dir1[speed_ini_Dir1.length-1]==0){speed_ini_Dir1[speed_ini_Dir1.length-1]=speed_avg;}
+		        				        		
+		        				        		// 2.3 apply projection
+		        				        		// remove 0 speed (in the middle) 
+		        				        		List<Double> y = new ArrayList<Double>(Arrays.asList(ArrayUtils.toObject(speed_ini_Dir1)));
+		        				        		List<Double> x = new ArrayList<Double>(Arrays.asList(ArrayUtils.toObject(mm_ini_Dir1)));
+		        				        		while(y.indexOf(0.0)>-1)
+		        				        		{
+		        				        			int index = y.indexOf(0.0);
+		        				        			y.remove(index);
+		        				        			x.remove(index);
+		        				        		}
+		        				        		double[] X = new double[x.size()];
+		        				        		double[] Y = new double[y.size()];
+		        				        		for (int i=0;i<X.length;i++)
+		        				        		{
+		        				        			X[i]=x.get(i);
+		        				        			Y[i]=y.get(i);
+		        				        		}
+		        				        		
+		        				        		if(mm_ini_Dir1.length>1)
+		        				        		{
+		        				        			speed_proj_Dir1 = interpLinear(X, Y, MM_PROJ_Dir1);
+		        				        		}
+	        				        		}
+	        				        		// speed = projected speed, count = the largest count lower than 600
 	        				        		List<Integer> b = Arrays.asList(ArrayUtils.toObject(count_ini_Dir1));
-	        				        		int maxcount = Collections.max(b);
+	        				        		int realcount = 0;
+	        				        		int mincount = Collections.min(b);
+	        				        		
+	        				        		Collections.sort(b);
+	        				        		Collections.reverse(b);
+	        				        		
+	        				        		if (mincount>600){realcount=100;}
+	        				        		else
+	        				        		{
+	        				        			int index = 0;
+	        				        			while (b.get(index)>600){index++;}
+	        				        			realcount = b.get(index);
+	        				        		}
 	        								for (int i = 0; i < speed_proj_Dir1.length; i++) 
 	        									{
-	        										put(i, Double.toString(speed_proj_Dir1[i])+","+Integer.toString(maxcount));
+	        										put(i, Double.toString(speed_proj_Dir1[i])+","+Integer.toString(realcount));
 	        									}
 	        							}
 	        				}
@@ -371,23 +408,56 @@ public class EventCalculation {
 	        				        		}
 	        				        		double speed_avg = 0.0;
 	        				        		if (counter_nonspeed>0){speed_avg=speed_sum/counter_nonspeed;}
-	        				        		for (int i=0;i<speed_ini_Dir2.length;i++)
-	        				        		{
-	        				        			if(speed_ini_Dir2[i]==0){speed_ini_Dir2[i]=speed_avg;}
-	        				        		}
 	        				        		
-	        				        		// 2.3 apply projection 
 	        				        		double[] speed_proj_Dir2 = speed_ini_Dir2;
-	        				        		if(mm_ini_Dir2.length>1)
-	        				        		{
-	        				        			speed_proj_Dir2 = interpLinear(mm_ini_Dir2, speed_ini_Dir2, MM_PROJ_Dir2);
-	        				        		}
 	        				        		
+	        				        		if (speed_avg>0){
+	        				        		
+	        				        			// replace 0 speed on both ends with avg speed
+		        				        		if(speed_ini_Dir2[0]==0){speed_ini_Dir2[0]=speed_avg;}
+		        				        		if(speed_ini_Dir2[speed_ini_Dir2.length-1]==0){speed_ini_Dir2[speed_ini_Dir2.length-1]=speed_avg;}
+		        				        		
+		        				        		// 2.3 apply projection 
+		        				        		// remove 0 speed (in the middle) 
+		        				        		List<Double> y = new ArrayList<Double>(Arrays.asList(ArrayUtils.toObject(speed_ini_Dir2)));
+		        				        		List<Double> x = new ArrayList<Double>(Arrays.asList(ArrayUtils.toObject(mm_ini_Dir2)));
+		        				        		while(y.indexOf(0.0)>-1)
+		        				        		{
+		        				        			int index = y.indexOf(0.0);
+		        				        			y.remove(index);
+		        				        			x.remove(index);
+		        				        		}
+		        				        		double[] X = new double[x.size()];
+		        				        		double[] Y = new double[y.size()];
+		        				        		for (int i=0;i<X.length;i++)
+		        				        		{
+		        				        			X[i]=x.get(i);
+		        				        			Y[i]=y.get(i);
+		        				        		}
+		        				        		
+		        				        		if(mm_ini_Dir1.length>1)
+		        				        		{
+		        				        			speed_proj_Dir2 = interpLinear(X, Y, MM_PROJ_Dir2);
+		        				        		}
+	        				        		}
+	        				        		// speed = projected speed, count = the largest count lower than 600
 	        				        		List<Integer> b = Arrays.asList(ArrayUtils.toObject(count_ini_Dir2));
-	        				        		int maxcount = Collections.max(b);
+	        				        		int realcount = 0;
+	        				        		int mincount = Collections.min(b);
+	        				        		
+	        				        		Collections.sort(b);
+	        				        		Collections.reverse(b);
+	        				        		
+	        				        		if (mincount>600){realcount=100;}
+	        				        		else
+	        				        		{
+	        				        			int index = 0;
+	        				        			while (b.get(index)>600){index++;}
+	        				        			realcount = b.get(index);
+	        				        		}
 	        								for (int i = 0; i < speed_proj_Dir2.length; i++) 
 	        									{
-	        										put(i, Double.toString(speed_proj_Dir2[i])+","+Integer.toString(maxcount));
+	        										put(i, Double.toString(speed_proj_Dir2[i])+","+Integer.toString(realcount));
 	        									}
 	        							}
 	        				}
@@ -481,12 +551,12 @@ public class EventCalculation {
 	        				if(queues.containsKey(key1))
 	        				{
 	        					int cnt_old = Integer.parseInt(queues.get(key1).split(",")[0])+1;
-	        					double sp_old = Double.parseDouble(queues.get(key1).split(",")[0])*cnt_old;
+	        					double sp_old = Double.parseDouble(queues.get(key1).split(",")[1])*cnt_old;
 	        					
 	        					int cnt_new = cnt_old + 1;
 	        					double sp_new = (sp_old+speed)/cnt_new;
 	        					
-	        					int veh_old = Integer.parseInt(queues.get(key1).split(",")[0]);
+	        					int veh_old = Integer.parseInt(queues.get(key1).split(",")[2]);
 	        					int veh_new = veh_old;
 	        					
 	        					queues.put(key1, Integer.toString(cnt_new)+","+Double.toString(sp_new)+","+Integer.toString(veh_new));
@@ -512,6 +582,8 @@ public class EventCalculation {
 	        			String row = dateString + "," + remoteFile.split(".txt")[0] + ",1,"+eventID+","+starttime+","+endtime+","+lengthImpacted+","+counter+","+averageEventSpeed+","+veh_sum+","+delay_total;
 	        			pw.append(row);
 	        			pw.append("\n");
+	        			pw1.append(row);
+	        			pw1.append("\n");
 	        		}
 	        		
 	        		List<Cluster<DoublePoint>> dbclusterResults_Dir2 = dbcluster.cluster(clusterInput_Dir2);
@@ -547,12 +619,12 @@ public class EventCalculation {
 	        				if(queues.containsKey(key1))
 	        				{
 	        					int cnt_old = Integer.parseInt(queues.get(key1).split(",")[0])+1;
-	        					double sp_old = Double.parseDouble(queues.get(key1).split(",")[0])*cnt_old;
+	        					double sp_old = Double.parseDouble(queues.get(key1).split(",")[1])*cnt_old;
 	        					
 	        					int cnt_new = cnt_old + 1;
 	        					double sp_new = (sp_old+speed)/cnt_new;
 	        					
-	        					int veh_old = Integer.parseInt(queues.get(key1).split(",")[0]);
+	        					int veh_old = Integer.parseInt(queues.get(key1).split(",")[2]);
 	        					int veh_new = veh_old;
 	        						
 	        					queues.put(key1, Integer.toString(cnt_new)+","+Double.toString(sp_new)+","+Integer.toString(veh_new));
@@ -582,9 +654,13 @@ public class EventCalculation {
 	        			String row = dateString + "," + remoteFile.split(".txt")[0] + ",2,"+eventID+","+starttime+","+endtime+","+lengthImpacted+","+counter+","+averageEventSpeed+","+veh_sum+","+delay_total;
 	        			pw.append(row);
 	        			pw.append("\n");
+	        			pw1.append(row);
+	        			pw1.append("\n");
 	        		}
 	    	        pw.flush();
 		            pw.close();	
+		            pw1.flush();
+		            pw1.close();	
 	            }
 	            System.out.println("checkpoint1");
 	            
@@ -606,53 +682,66 @@ public class EventCalculation {
 	
 	
 	// linear interpolation function	
-		public static final double[] interpLinear(double[] x, double[] y, double[] xi) throws IllegalArgumentException {
+	
+	public static double[] interpLinear(double[] x, double[] y, double[] xi) {
+		   LinearInterpolator li = new LinearInterpolator(); // or other interpolator
+		   PolynomialSplineFunction psf = li.interpolate(x, y);
 
-		    if (x.length != y.length) {
-		        throw new IllegalArgumentException("X and Y must be the same length");
-		    }
-		    if (x.length == 1) {
-		        throw new IllegalArgumentException("X must contain more than one value");
-		    }
-		    double[] dx = new double[x.length - 1];
-		    double[] dy = new double[x.length - 1];
-		    double[] slope = new double[x.length - 1];
-		    double[] intercept = new double[x.length - 1];
-
-		    // Calculate the line equation (i.e. slope and intercept) between each point
-		    for (int i = 0; i < x.length - 1; i++) {
-		        dx[i] = x[i + 1] - x[i];
-		        if (dx[i] == 0) {
-		            throw new IllegalArgumentException("X must be montotonic. A duplicate " + "x-value was found");
-		        }
-		        if (dx[i] < 0) {
-		            throw new IllegalArgumentException("X must be sorted");
-		        }
-		        dy[i] = y[i + 1] - y[i];
-		        slope[i] = dy[i] / dx[i];
-		        intercept[i] = y[i] - x[i] * slope[i];
-		    }
-
-		    // Perform the interpolation here
-		    double[] yi = new double[xi.length];
-		    for (int i = 0; i < xi.length; i++) {
-		        if ((xi[i] > x[x.length - 1]) || (xi[i] < x[0])) {
-		            yi[i] = Double.NaN;
-		        }
-		        else {
-		            int loc = Arrays.binarySearch(x, xi[i]);
-		            if (loc < -1) {
-		                loc = -loc - 2;
-		                yi[i] = slope[loc] * xi[i] + intercept[loc];
-		            }
-		            else {
-		                yi[i] = y[loc];
-		            }
-		        }
-		    }
-
-		    return yi;
+		   double[] yi = new double[xi.length];
+		   for (int i = 0; i < xi.length; i++) {
+		       yi[i] = psf.value(xi[i]);
+		   }
+		   return yi;
 		}
+
+	
+//		public static final double[] interpLinear(double[] x, double[] y, double[] xi) throws IllegalArgumentException {
+//
+//		    if (x.length != y.length) {
+//		        throw new IllegalArgumentException("X and Y must be the same length");
+//		    }
+//		    if (x.length == 1) {
+//		        throw new IllegalArgumentException("X must contain more than one value");
+//		    }
+//		    double[] dx = new double[x.length - 1];
+//		    double[] dy = new double[x.length - 1];
+//		    double[] slope = new double[x.length - 1];
+//		    double[] intercept = new double[x.length - 1];
+//
+//		    // Calculate the line equation (i.e. slope and intercept) between each point
+//		    for (int i = 0; i < x.length - 1; i++) {
+//		        dx[i] = x[i + 1] - x[i];
+//		        if (dx[i] == 0) {
+//		            throw new IllegalArgumentException("X must be montotonic. A duplicate " + "x-value was found");
+//		        }
+//		        if (dx[i] < 0) {
+//		            throw new IllegalArgumentException("X must be sorted");
+//		        }
+//		        dy[i] = y[i + 1] - y[i];
+//		        slope[i] = dy[i] / dx[i];
+//		        intercept[i] = y[i] - x[i] * slope[i];
+//		    }
+//
+//		    // Perform the interpolation here
+//		    double[] yi = new double[xi.length];
+//		    for (int i = 0; i < xi.length; i++) {
+//		        if ((xi[i] > x[x.length - 1]) || (xi[i] < x[0])) {
+//		            yi[i] = Double.NaN;
+//		        }
+//		        else {
+//		            int loc = Arrays.binarySearch(x, xi[i]);
+//		            if (loc < -1) {
+//		                loc = -loc - 2;
+//		                yi[i] = slope[loc] * xi[i] + intercept[loc];
+//		            }
+//		            else {
+//		                yi[i] = y[loc];
+//		            }
+//		        }
+//		    }
+//
+//		    return yi;
+//		}
 
 	
 }
