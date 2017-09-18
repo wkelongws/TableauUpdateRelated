@@ -28,3 +28,41 @@ All other .java files are the source code for the excutable jars scheduled daily
 `IWZPerformanceCalculation_dailyappending` computes the traffic performance measures and append them to `performance_daily-2017.csv`
 
 All the _MultipleDays.java file are the variants of the 4 files above. They are designed to process multiple days as needed.
+
+### IWZ Data Flow
+
+The detailed IWZ data flow and the corresponding jars are described in "IWZ flow chart.pptx"
+
+And you can refer to this list to find the source code for each jar and the dependent functions for the matlab code:
+
+wavetronixShuo.jar 
+built from:
+DataLoader.java TextFileWriter.java WaveDownload.java (paths may change)
+
+wavecopyShuo.jar
+built from:
+waveCopy.java (paths may change)
+
+CreateTargetDataPull.jar
+built from:
+CreateTargetDatapull.java (paths may change)
+
+IWZavgspeedbylane.jar
+built from:
+IWZavgspeedbylane.java (paths may change)
+
+HeatmapDataAppending.jar
+built from:
+HeatmapDataAppending.java
+
+IWZPerformanceCalculation_dailyappending.java
+built from:
+IWZPerformanceCalculation_dailyappending.java
+
+eventcalculation_dailyapplending.jar
+built from:
+EventCalculation.java
+
+IWZheatmapReporter_weekly.m
+dependent functions locate in folder:
+WorZone_code
